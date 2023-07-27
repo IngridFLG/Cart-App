@@ -1,44 +1,62 @@
-
+import { useState } from "react";
+import { CartView } from "./components/CartView";
 import { ProductView } from "./components/ProductView";
 
+const initialCartItems = [
+    // {
+    //     product: {
+
+    //     },
+    //     quantity: 0,
+    // }
+];
 export const CartApp = () => {
-    
+
+    const [cartItems, setCartItems] = useState(initialCartItems);
+    const addProductCart = (product) => {
+
+        const hasItem = cartItems.find((i) => i.product.id === product.id);
+        if(hasItem) {
+            // setCartItems([
+            // Cambia el producto de posicion
+            //     ...cartItems.filter((i) => i.product.id !== product.id),
+            //     {
+            //         product,
+            //         quantity: hasItem.quantity + 1,
+            //     }
+            // ])
+            setCartItems(
+                cartItems.map((i) => {
+                    if(i.product.id === product.id){
+                        i.quantity = i.quantity + 1;
+                    }
+                    return i;
+                })
+            )
+        }else{
+            setCartItems([...cartItems,
+                {
+                    product: product,
+                    quantity: 1,
+                }
+            ]);
+        }   
+    }
+
+    const DeleteProductCart = (id) => {
+        setCartItems([
+            ...cartItems.filter((i) => i.product.id !== id),
+        ]);
+    }
     return(
     <>
         <div className="container">
 
             <h3>Cart App</h3>
-            <ProductView />
+            <ProductView add={product => addProductCart(product) }/>
 
             <div className="my-4 w-50">
-                <h3>Carro de compras</h3>
-                <table className="table table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
-                            <th>Total</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Nombre</td>
-                            <td>precio</td>
-                            <td>Cantidad</td>
-                            <td>total</td>
-                            <td>eliminar</td>
-                        </tr>
-
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colSpan={3} className="text-end fw-bold">Total</td>
-                            <td colSpan={2} className="text-star fw-bold">1234</td>
-                        </tr>
-                    </tfoot>
-                </table>
+                <CartView items={cartItems} handlerDelete={DeleteProductCart}/>
             </div>
         </div>
     </>

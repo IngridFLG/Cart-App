@@ -3,7 +3,7 @@ import { getProducts } from "../services/productService";
 import { ProductItem } from "./ProductItem";
 
 
-export const ProductView = () => {
+export const ProductView = ({ add }) => {
     const [products, setProducts] = useState([]);
 
     useEffect(
@@ -16,7 +16,9 @@ export const ProductView = () => {
         <div className="row">
                 {products.map(prod => (
                     <div className="col-4 my-2" key={prod.id}>
-                        <ProductItem name={prod.name} 
+                        <ProductItem add={add} 
+                                     id={prod.id} 
+                                     name={prod.name} 
                                      description={prod.description} 
                                      price={prod.price}
                         />
