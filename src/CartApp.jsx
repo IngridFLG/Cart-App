@@ -2,14 +2,8 @@ import { useState } from "react";
 import { CartView } from "./components/CartView";
 import { ProductView } from "./components/ProductView";
 
-const initialCartItems = [
-    // {
-    //     product: {
-
-    //     },
-    //     quantity: 0,
-    // }
-];
+// convierte un String a un objeto
+const initialCartItems = JSON.parse(sessionStorage.getItem('cart') || []);
 export const CartApp = () => {
 
     const [cartItems, setCartItems] = useState(initialCartItems);
@@ -50,14 +44,16 @@ export const CartApp = () => {
     }
     return(
     <>
-        <div className="container">
+        <div className="container my-4">
 
             <h3>Cart App</h3>
             <ProductView add={product => addProductCart(product) }/>
 
-            <div className="my-4 w-50">
-                <CartView items={cartItems} handlerDelete={DeleteProductCart}/>
-            </div>
+            {cartItems?.length <= 0 || 
+                <div className="my-4 w-50">
+                    <CartView items={cartItems} handlerDelete={DeleteProductCart}/>
+                </div>
+            }
         </div>
     </>
     )

@@ -1,5 +1,18 @@
+import { useEffect, useState } from "react";
+import { calculateToltal } from "../services/productService";
 
 export const CartView = ({ items, handlerDelete }) => {
+
+    const [total, setTotal] = useState(0);
+
+    //total del carrito
+    useEffect(() => {
+        setTotal(
+            calculateToltal(items)
+        );
+        //convierte un objeto a un string
+        sessionStorage.setItem("cart", JSON.stringify(items));
+    }, [items]);
 
     const deleteProduct = (id) => {
         handlerDelete(id);
@@ -33,7 +46,7 @@ export const CartView = ({ items, handlerDelete }) => {
                     <tfoot>
                         <tr>
                             <td colSpan={3} className="text-end fw-bold">Total</td>
-                            <td colSpan={2} className="text-star fw-bold">1234</td>
+                            <td colSpan={2} className="text-star fw-bold">{total}</td>
                         </tr>
                     </tfoot>
         </table>
