@@ -1,8 +1,14 @@
+import { useNavigate } from "react-router-dom";
 
 
 export const ProductItem = ({add, id, name, description, price}) => {
+
+  const navigate = useNavigate();
+
   const addProductCart = (product) => {
     add(product);
+    //agrega y va directamente al carrito
+    navigate('/cart');
   }
   return (
     <>
