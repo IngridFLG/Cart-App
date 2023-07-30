@@ -11,48 +11,48 @@ const initialCartItems = cartFromSession ? JSON.parse(cartFromSession) : [];
 
 export const useItemCart = () => {
 
-//const [cartItems, setCartItems] = useState(initialCartItems);
-const [cartItems, dispatch] = useReducer(itemsReducer, initialCartItems);
+    //const [cartItems, setCartItems] = useState(initialCartItems);
+    const [cartItems, dispatch] = useReducer(itemsReducer, initialCartItems);
 
-useEffect(() => {
-    //convierte un objeto a un string
-    sessionStorage.setItem("cart", JSON.stringify(cartItems));
-}, [cartItems]);
+    useEffect(() => {
+        //convierte un objeto a un string
+        sessionStorage.setItem("cart", JSON.stringify(cartItems));
+    }, [cartItems]);
 
-const handlerAddProductCart = (product) => {
+    const handlerAddProductCart = (product) => {
 
-    const hasItem = cartItems.find((i) => i.product.id === product.id);
-    if(hasItem) {
-        // setCartItems([
-        // Cambia el producto de posicion
-        //     ...cartItems.filter((i) => i.product.id !== product.id),
-        //     {
-        //         product,
-        //         quantity: hasItem.quantity + 1,
-        //     }
-        // ])
+        const hasItem = cartItems.find((i) => i.product.id === product.id);
+        if (hasItem) {
+            // setCartItems([
+            // Cambia el producto de posicion
+            //     ...cartItems.filter((i) => i.product.id !== product.id),
+            //     {
+            //         product,
+            //         quantity: hasItem.quantity + 1,
+            //     }
+            // ])
+            dispatch(
+                {
+                    type: updateQuantityProductCart,
+                    payload: product
+                }
+            )
+        } else {
+            dispatch(
+                {
+                    type: addProductCart,
+                    payload: product
+                });
+        }
+    }
+
+    const handlerDeleteProductCart = (id) => {
         dispatch(
             {
-                type: updateQuantityProductCart,
-                payload: product
-            }
-        )
-    }else{
-        dispatch(
-        {
-            type: addProductCart,
-            payload: product
-        });
-    }   
-}
-
-const handlerDeleteProductCart = (id) => {
-    dispatch(
-        {
-            type: deleteProductCart,
-            payload: id
-        });
-}
+                type: deleteProductCart,
+                payload: id
+            });
+    }
     return {
         cartItems,
         handlerAddProductCart,
