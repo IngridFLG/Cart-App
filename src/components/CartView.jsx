@@ -10,8 +10,6 @@ export const CartView = ({ items, handlerDelete }) => {
         setTotal(
             calculateToltal(items)
         );
-        //convierte un objeto a un string
-        sessionStorage.setItem("cart", JSON.stringify(items));
     }, [items]);
 
     const deleteProduct = (id) => {
